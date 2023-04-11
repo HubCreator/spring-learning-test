@@ -24,7 +24,7 @@ public class UpdatingDaoTest {
 
     @BeforeEach
     void setUp() {
-//        updatingDAO = new UpdatingDAO(jdbcTemplate);
+        updatingDAO = new UpdatingDAO(jdbcTemplate);
 
         jdbcTemplate.execute("DROP TABLE customers IF EXISTS");
         jdbcTemplate.execute("CREATE TABLE customers(" +

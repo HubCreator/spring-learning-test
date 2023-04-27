@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AuthControllerTest {
+
     private static final String USERNAME_FIELD = "email";
     private static final String PASSWORD_FIELD = "password";
     private static final String EMAIL = "email@email.com";
@@ -37,7 +38,8 @@ class AuthControllerTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/members/me")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value()).extract().as(MemberResponse.class);
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(MemberResponse.class);
 
         assertThat(member.getEmail()).isEqualTo(EMAIL);
     }
@@ -58,20 +60,23 @@ class AuthControllerTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/members/you")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value()).extract().as(MemberResponse.class);
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(MemberResponse.class);
 
         assertThat(member.getEmail()).isEqualTo(EMAIL);
     }
 
     @Test
     void basicLogin() {
+        // preemtive : 사전 인증 보기를 반환합니다. 이는 서버가 인증에 대한 도전을 했는지 여부와 관계없이 인증 세부 정보가 요청 헤더에 전송되는 것을 의미합니다.
         MemberResponse member = RestAssured
                 .given().log().all()
                 .auth().preemptive().basic(EMAIL, PASSWORD)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().get("/members/my")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value()).extract().as(MemberResponse.class);
+                .statusCode(HttpStatus.OK.value())
+                .extract().as(MemberResponse.class);
 
         assertThat(member.getEmail()).isEqualTo(EMAIL);
     }

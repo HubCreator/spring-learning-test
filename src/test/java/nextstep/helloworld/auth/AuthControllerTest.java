@@ -46,13 +46,16 @@ class AuthControllerTest {
 
     @Test
     void tokenLogin() {
-        String accessToken = RestAssured
+        final TokenResponse tokenResponse = RestAssured
                 .given().log().all()
                 .body(new TokenRequest(EMAIL, PASSWORD))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .when().post("/login/token")
-                .then().log().all().extract().as(TokenResponse.class).getAccessToken();
+                .then().log().all()
+                .extract().as(TokenResponse.class);// extract로 바디에 있는 객체를 얻어올 수 있다.
+
+        final String accessToken = tokenResponse.getAccessToken();
 
         MemberResponse member = RestAssured
                 .given().log().all()

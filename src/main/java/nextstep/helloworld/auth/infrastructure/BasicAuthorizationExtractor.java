@@ -31,6 +31,4 @@ public class BasicAuthorizationExtractor implements AuthorizationExtractor<AuthI
 
         return null;
     }
-
-
 }
